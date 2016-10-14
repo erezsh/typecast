@@ -26,6 +26,7 @@ You can cast from any unit to any unit. However, the library doesn't implement O
 Let's have a better look at chaining, when we try to add a new Fortnight class.
 
 .. code-block:: python
+
     >>>  from typecast import Typecast
     >>>
     >>>  class Fortnights(metaclass=Typecast):
@@ -92,7 +93,7 @@ I encourage the curious reader to think of ways this library might apply to solv
 
 I will be the first to admit that this library is experimental, not only implementation but also in concept. Powerful tools are easy to abuse, so I advise potential users to think critically about whether this library is the right solution for their problems, or will it only add a new problem in the long run.
 
-Also, this library obviously adds some overhead, so it's not recommended for you in speed-critical code.
+Also, this library obviously adds some overhead, so it's not recommended for use in speed-critical code.
 
 # Support
 
