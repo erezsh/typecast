@@ -11,25 +11,28 @@ In order to demonstrate the power and usefulness of this mechanism, let's look a
 
 ## Case study 1: Time units
 
-Typecasts library comes with time units which allow you to convert between different units:
+Typecast's library comes with time units which allow you to convert between them:
 
-    >>> from typecast.lib.time import Seconds, Minutes, Hours, Days, Weeks
-    >>> Minutes(60) >> Seconds
+```python
+    >>>  from typecast.lib.time import Seconds, Minutes, Hours, Days, Weeks
+    >>>  Minutes(60) >> Seconds
     Seconds(3600)
-    >>> Hours(60) >> Days
+    >>>  Hours(60) >> Days
     Days(2.5)
+```
 
 You can cast from any unit to any unit. However, the library doesn't implement O(n!) of casts. Every unit can cast to and from Seconds, and the chaining mechanism lets us get away with only O(n) cast implementations.
 
 Let's have a better look at chaining, when we try to add a new Fortnight class.
 
-    >>> from typecast import Typecast
+.. code-block:: python
+    >>>  from typecast import Typecast
     >>>
-    >>> class Fortnights(metaclass=Typecast):
-    >>>     def __init__(self, fortnights):
-    >>>         self.fortnights = fortnights
-    >>>     def to__Weeks(self, cls):
-    >>>         return cls(self.fortnights * 2)
+    >>>  class Fortnights(metaclass=Typecast):
+    >>>      def __init__(self, fortnights):
+    >>>          self.fortnights = fortnights
+    >>>      def to__Weeks(self, cls):
+    >>>          return cls(self.fortnights * 2)
     >>>
     >>>  Fortnights(2) >> Days
     Days(28)
@@ -38,7 +41,7 @@ Let's have a better look at chaining, when we try to add a new Fortnight class.
 
 The *to\_\_* prefix is special to the Typecast metaclass.
 
-Notice how the chaining mechanism automatically lets us cast to days, even though we only defined a cast to weeks. We could have chosen any unit (Hours, Seconds, etc.) and it would just work.
+Notice how the chaining mechanism automatically lets us cast to Days, even though we only defined a cast to Weeks. We could have chosen any unit (Hours, Seconds, etc.) and it would have just worked.
 
 (Of course, to cast into Fortnights we'll also have to define a from\_\_ cast)
 
@@ -55,22 +58,22 @@ Another little benefit of these units is using operations on them:
 
 The typecast library defines a HTML type, with a few basic casts:
 
-    >>> from typecast.lib.web import HTML
+    >>>  from typecast.lib.web import HTML
     >>>
-    >>>  HTML << 'a < b'
+    >>>   HTML << 'a < b'
     HTML('a &lt; b')
-    >>>  HTML << ['a', 'b']
+    >>>   HTML << ['a', 'b']
     '<ol>\n<li>a</li>\n<li>b</li>\n</ol>'
 
 Notice that we can be confident that a HTML type is safe to insert into a html document.
 
 Another feature of typecast, called "autocast", allows us to write safe operations on html without much effort:
 
-    >>> from typecast import autocast
+    >>>  from typecast import autocast
     >>>
-    >>> @autocast
-    >>> def div(html: HTML):
-    >>>     return HTML(f'<div>{html.html}</div>')
+    >>>  @autocast
+    >>>  def div(html: HTML):
+    >>>      return HTML(f'<div>{html.html}</div>')
     >>>
     >>>  div(div('use <b>to emphasize</b>'))
     HTML('<div><div>use &lt;b&gt;to emphasize&lt;/b&gt;</div></div>')
@@ -78,6 +81,18 @@ Another feature of typecast, called "autocast", allows us to write safe operatio
 Typecast lets us have html correctness, without having to worry about stacking operations.
 
 Of course, it's possible to define new casts (from database objects?) and chain them if necessary.
+
+## Case studies: Summary
+
+These examples show possible uses for this library. However there might be many others: Improving APIs, interoperability of external libraries, etc.
+
+I encourage the curious reader to think of ways this library might apply to solve some of the design challenges in their current projects.
+
+# Caveats
+
+I will be the first to admit that this library is experimental, not only implementation but also in concept. Powerful tools are easy to abuse, so I advise potential users to think critically about whether this library is the right solution for their problems, or will it only add a new problem in the long run.
+
+Also, this library obviously adds some overhead, so it's not recommended for you in speed-critical code.
 
 # Support
 
