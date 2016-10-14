@@ -1,6 +1,6 @@
 # TODO: from/to should follow inheritance even when defined outside of the class
 
-from collections import defaultdict
+from collections import defaultdict, deque
 import inspect
 
 _g_classmap = defaultdict(dict)
@@ -11,7 +11,7 @@ class CastError(Exception):
 
 
 def bfs(initial, expand):
-    open_q = collections.deque(list(initial))
+    open_q = deque(list(initial))
     visited = set(open_q)
     while open_q:
         node = open_q.popleft()

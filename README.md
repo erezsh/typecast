@@ -23,7 +23,7 @@ Typecast's library comes with time units which allow you to convert between them
 
 You can cast from any unit to any unit. However, the library doesn't implement O(n!) of casts. Every unit can cast to and from Seconds, and the chaining mechanism lets us get away with only O(n) cast implementations.
 
-Let's have a better look at chaining, when we try to add a new Fortnight class.
+Let's have a better look at chaining, when we try to add a new Fortnights class.
 
 ```python
     >>>  from typecast import Typecast
@@ -109,7 +109,11 @@ If there's enough demand, I will make it work for Python 2 too.
 
 # Installation
 
-...
+```bash
+    $ git clone https://github.com/erezsh/typecast
+    $ cd typecast
+    $ python3 setup.py install
+```
 
 # How to contribute
 
